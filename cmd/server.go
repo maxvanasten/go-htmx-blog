@@ -12,6 +12,6 @@ func main() {
         http.HandleFunc(path, handlerFunc)
     } 
 
-    fmt.Printf("\nhttp://localhost%s", ":3000")
+    fmt.Printf("\nhttp://localhost%s", ":3000\n")
     http.ListenAndServe(":3000", nil)
 }

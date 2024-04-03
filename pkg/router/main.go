@@ -9,8 +9,9 @@ import (
 )
 
 type BlogPost struct {
-	Path string
-	Name string
+	Path     string
+	Name     string
+	Category string
 }
 
 func GetRoutes() map[string]http.HandlerFunc {
@@ -21,40 +22,49 @@ func GetRoutes() map[string]http.HandlerFunc {
 		ExecuteTemplate(w, "html/index.html", nil)
 	}
 
-	// Partials
-	Routes["/partials/footer"] = func(w http.ResponseWriter, r *http.Request) {
-		ExecuteTemplate(w, "html/partials/footer.html", nil)
-	}
-
-	// Pages
-
-    // TODO: Get directories in 'pages' directory, perform below functionality for every directory.
-
-	// Get list of files in 'pages' directory
-	files, err := os.ReadDir("html/pages")
+	// Posts
+	// Get list of directories in 'posts' directory
+	directories, err := os.ReadDir("html/posts")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	BlogPosts := make(map[string]BlogPost)
-	for _, file := range files {
-		path := strings.Replace(file.Name(), ".html", "", -1)
+	categories := []string{}
+	for _, category := range directories {
+		if category.IsDir() {
+			category_name := category.Name()
+            categories = append(categories, category_name)
+			files, err := os.ReadDir("html/posts/" + category_name)
+			if err != nil {
+				log.Fatal(err)
+			}
 
-        // Add blog post to BlogPosts for the navigator
-		BlogPosts[path] = BlogPost{
-			path,
-			strings.Replace(path, "_", " ", -1),
-		}
+			BlogPosts := make(map[string]BlogPost)
+			for _, file := range files {
+				path := strings.Replace(file.Name(), ".html", "", -1)
 
-        // Add routes for every blog post
-		Routes["/pages/"+path] = func(w http.ResponseWriter, r *http.Request) {
-			ExecuteTemplate(w, "html/pages/"+file.Name(), nil)
+				// Add blog post to BlogPosts for the navigator
+				BlogPosts[path] = BlogPost{
+					path,
+					strings.Replace(path, "_", " ", -1),
+					category_name,
+				}
+
+				// Add routes for every blog post
+				Routes["/posts/"+category_name+"/"+path] = func(w http.ResponseWriter, r *http.Request) {
+					ExecuteTemplate(w, "html/posts/"+category_name+"/"+file.Name(), nil)
+				}
+			}
+
+			Routes["/partials/posts_navigator/"+category_name] = func(w http.ResponseWriter, r *http.Request) {
+				ExecuteTemplate(w, "html/partials/posts_navigator.html", BlogPosts)
+			}
 		}
 	}
 
-	// Page navigator
-	Routes["/partials/navigator"] = func(w http.ResponseWriter, r *http.Request) {
-		ExecuteTemplate(w, "html/partials/navigator.html", BlogPosts)
+	// Category navigator
+	Routes["/partials/category_navigator"] = func(w http.ResponseWriter, r *http.Request) {
+		ExecuteTemplate(w, "html/partials/category_navigator.html", categories)
 	}
 
 	return Routes
