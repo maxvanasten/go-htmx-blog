@@ -22,6 +22,7 @@ func GetRoutes() map[string]http.HandlerFunc {
 	}
 
 	// Pages
+    // TODO: Get directories in 'pages' directory, perform below functionality for every directory.
 	files, err := os.ReadDir("html/pages")
 	if err != nil {
 		log.Fatal(err)

@@ -1,3 +1,8 @@
+<!-- 
+    TODO: Make an outer navigator for each category, clicking a category
+    will expand an inner navigator with every post in that category.
+-->
+
 <div class="container">
     {{range .}}
     <button class="btn btn-secondary text-capitalize" hx-get="/pages/{{.Path}}" hx-target="#page"
