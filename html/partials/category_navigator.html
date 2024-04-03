@@ -1,16 +1,13 @@
-<!-- 
-    TODO: Make an outer navigator for each category, clicking a category
-    will expand an inner navigator with every post in that category.
--->
-
 <div class="container">
     {{range .}}
+    <!-- for every category, make a button -->
     <button class="btn btn-secondary text-capitalize" hx-get="/partials/posts_navigator/{{.}}" hx-target="#posts"
         hx-swap="innerHTML">{{.}}</button>
     {{end}}
 
     <hr>
-
+    
+    <!-- container for post buttons -->
     <div class="container" id="posts">
     </div>
 

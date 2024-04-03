@@ -2,19 +2,21 @@
 
 <head>
     <title>Go + HTMX Blog</title>
+    <!-- load bootstrap css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css"
         integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
+    <!-- load HTMX -->
     <script src="https://unpkg.com/htmx.org@1.9.11"></script>
 </head>
 
 <body>
-
+    <!-- Main title -->
     <div class="container">
         <h1>Blog</h1>
     </div>
-
+    <!-- Buttons for every category -->
     <div hx-get="/partials/category_navigator" hx-swap="outerHTML" hx-trigger="load"></div>
-
+    <!-- div for post content -->
     <div class="container mt-2" id="page">
         <p class="lead">Pick an article to read!</p>
     </div>

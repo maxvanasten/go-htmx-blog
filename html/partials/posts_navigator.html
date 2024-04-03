@@ -1,4 +1,5 @@
 <div class="container">
+    <!-- for every post in category, make a button -->
     {{range .}}
     <button class="btn btn-secondary text-capitalize" hx-get="/posts/{{.Category}}/{{.Path}}" hx-target="#page"
         hx-swap="innerHTML">{{.Name}}</button>
