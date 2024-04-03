@@ -1,0 +1,6 @@
+<div class="container">
+    {{range .}}
+    <button class="btn btn-secondary text-capitalize" hx-get="/pages/{{.Path}}" hx-target="#page"
+        hx-swap="innerHTML">{{.Name}}</button>
+    {{end}}
+</div>
