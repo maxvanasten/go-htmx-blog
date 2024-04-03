@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Go + HTMX</title>
+    <title>Go + HTMX Blog</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css"
         integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
     <script src="https://unpkg.com/htmx.org@1.9.11"></script>
@@ -10,16 +10,15 @@
 <body>
 
     <div class="container">
-        <h1>My Articles</h1>
+        <h1>Blog</h1>
     </div>
 
-    <div hx-get="/partials/navigator" hx-swap="outerHTML" hx-trigger="load"></div>
+    <div hx-get="/partials/category_navigator" hx-swap="outerHTML" hx-trigger="load"></div>
 
     <div class="container mt-2" id="page">
         <p class="lead">Pick an article to read!</p>
     </div>
 
-    <div hx-get="/partials/footer" hx-swap="outerHTML" hx-trigger="load"></div>
 </body>
 
 </html>
