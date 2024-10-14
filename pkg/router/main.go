@@ -15,8 +15,8 @@ type BlogPost struct {
 }
 
 func GetRoutes() map[string]http.HandlerFunc {
-    // Initialize 'Routes' map
-    Routes := make(map[string]http.HandlerFunc)
+	// Initialize 'Routes' map
+	Routes := make(map[string]http.HandlerFunc)
 
 	// Main page
 	Routes["/"] = func(w http.ResponseWriter, r *http.Request) {
@@ -30,25 +30,25 @@ func GetRoutes() map[string]http.HandlerFunc {
 		log.Fatal(err)
 	}
 
-    // Initialize list of categories
+	// Initialize list of categories
 	categories := []string{}
-    // Iterate over 'directories'
+	// Iterate over 'directories'
 	for _, category := range directories {
-        // Look for directories
+		// Look for directories
 		if category.IsDir() {
-            // Add category name to 'categories' list
+			// Add category name to 'categories' list
 			category_name := category.Name()
-            categories = append(categories, category_name)
-            // Get all files in this category
+			categories = append(categories, category_name)
+			// Get all files in this category
 			files, err := os.ReadDir("html/posts/" + category_name)
 			if err != nil {
 				log.Fatal(err)
 			}
-            // Initialize 'BlogPosts' list
+			// Initialize 'BlogPosts' list
 			BlogPosts := make(map[string]BlogPost)
-            // Iterate over 'files' in this category
+			// Iterate over 'files' in this category
 			for _, file := range files {
-                // Remove '.html' from filename
+				// Remove '.html' from filename
 				path := strings.Replace(file.Name(), ".html", "", -1)
 
 				// Add blog post to BlogPosts for the navigator
@@ -61,9 +61,9 @@ func GetRoutes() map[string]http.HandlerFunc {
 				// Add routes for every blog post
 				Routes["/posts/"+category_name+"/"+path] = func(w http.ResponseWriter, r *http.Request) {
 					ExecuteTemplate(w, "html/posts/"+category_name+"/"+file.Name(), nil)
-				} 
+				}
 			}
-            // Add route for every category, returns a list of blog posts
+			// Add route for every category, returns a list of blog posts
 			Routes["/partials/posts_navigator/"+category_name] = func(w http.ResponseWriter, r *http.Request) {
 				ExecuteTemplate(w, "html/partials/posts_navigator.html", BlogPosts)
 			}
